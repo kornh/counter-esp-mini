@@ -1,0 +1,41 @@
+{
+    "message": "Please use commands to call API!",
+    "commands": {
+        "api": {
+            "description": "Base Path for API Call",
+            "commands": {
+                "status": {
+                    "description": "Status of Counter",
+                    "methods": ["GET"],
+                    "parameters": {
+                        "cid": "ID of Counter"
+                    }
+                },
+                "register": {
+                    "description": "Register new Counter",
+                    "methods": ["POST"],
+                    "parameters": {
+                        "cid": "ID of Counter",
+                        "secret": "Secret of Counter. Post in Body"
+                    }
+                },
+                "count": {
+                    "description": "Access Count of Counter",
+                    "methods": ["POST"],
+                    "parameters": {
+                        "cid": "ID of Counter",
+                        "number": "Number to modify the counter. Optional. Default = 1"
+                    }
+                },
+                "reset": {
+                    "description": "Reset Counter Value",
+                    "methods": ["POST"],
+                    "parameters": {
+                        "cid": "ID of Counter",
+                        "secret": "Secret of Counter. Post in Body"
+                    }
+                }
+            }
+        }
+    }
+}

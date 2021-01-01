@@ -1,0 +1,28 @@
+{
+    "error": {
+        "noCID": {
+            "message": "No CID found",
+            "code": 1001
+        }
+    },
+    "warning": {
+        "registrationAlreadyDone": {
+            "message": "Already registered",
+            "code": 2001
+        }
+    },
+    "info": {
+        "registrationSuccess": {
+            "message": "Registration success",
+            "code": 3001
+        },
+        "counterSuccess": {
+            "message": "Counter updated successfully",
+            "code": 3002
+        },
+        "counterSetSuccess": {
+            "message": "Counter set successfully",
+            "code": 3003
+        }
+    }
+}
