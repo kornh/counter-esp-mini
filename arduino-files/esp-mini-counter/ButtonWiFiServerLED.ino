@@ -12,9 +12,9 @@
 #include <ESP8266HTTPClient.h>
 
 // Assign output variables
-const int taster = 0;//D1;
-//const int stopp = D2;
-const int led_out = 0;//D3;
+const int taster = D1;
+const int led_out_1 = D2;
+const int led_out_2 = D3;
 
 int val = 0; // variable for reading the pin status
 
@@ -26,18 +26,22 @@ void controller_setup()
 
 void output_init()
 {
-    pinMode(led_out, OUTPUT);
-    digitalWrite(led_out, LOW);
+    pinMode(led_out_1, OUTPUT); // LED 1 PIN as Output
+    digitalWrite(led_out_1, LOW); // LED 1 Off
+    pinMode(led_out_2, OUTPUT); // LED 2 PIN as Output
+    digitalWrite(led_out_2, LOW); // LED 2 Off
 }
 
 void sensor_init()
 {
-    pinMode(taster, INPUT_PULLUP);
-    digitalWrite(taster, HIGH);
+    pinMode(taster, INPUT_PULLUP); // Sensor Input as PULLUP
+    digitalWrite(taster, HIGH); // Sensor on HIGH
 }
 
 void status_init()
 {
+    digitalWrite(led_out_1, HIGH); // turn LED ON
+    digitalWrite(led_out_2, LOW); // turn LED ON
 }
 
 void network_connect()
@@ -61,6 +65,8 @@ void network_connect()
 
 void status_connected()
 {
+    digitalWrite(led_out_1, HIGH); // turn LED ON
+    digitalWrite(led_out_2, HIGH); // turn LED ON
 }
 
 void storage_init()
@@ -69,30 +75,34 @@ void storage_init()
 
 void status_ready()
 {
+    digitalWrite(led_out_1, LOW); // turn LED ON
+    digitalWrite(led_out_2, HIGH); // turn LED ON
 }
 
 void sensor_read()
 {
     val = digitalRead(taster); // read input value
+    // HIGH = no input
+    // LOW = user input
 }
 
 int sensor_is_active()
 {
-    if(val != HIGH){
-      return 1;
+    if(val != HIGH){ // HIGH = no input
+        return 1;
     }
     return 0;
 }
 
 void sensor_on_active()
 {
-    digitalWrite(led_out, HIGH); // turn LED ON
+    digitalWrite(led_out_2, LOW); // turn LED ON
     Serial.println(val);
 }
 
 void sensor_on_inactive()
 {
-    digitalWrite(led_out, LOW); // turn LED OFF
+    digitalWrite(led_out_2, HIGH); // turn LED OFF
 }
 
 #endif
