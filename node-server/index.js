@@ -20,12 +20,23 @@ db.defaults({
         counterSecret: {},
         counterStatus: {},
         counterTimestamp: {},
-        counterNumber: {}
+        counterNumber: {},
+        counterLogs: {}
     })
     .write()
 
 var dbCall = {
-    getIndexOf: (cid) => db.get('counterId').indexOf(cid)
+    getIndexOf: (cid) => db.get('counterId').indexOf(cid),
+    makeLog: (cid, command, parameters) => {
+        var timestamp = new Date().toISOString();
+        var log = {
+            timestamp,
+            cid,
+            command,
+            parameters
+        }
+        db.get('counterLogs').get(cid).push(log).write()
+    }
 }
 
 app.get('/api/status/:cid', (req, res, next) => {
@@ -53,13 +64,19 @@ app.get('/api/register/:cid', (req, res) => { //GET for Debug
         // Save Last seen
         var now = new Date().toISOString();
         db.get('counterTimestamp').set(cid, now).write()
-        //Save Secret
+        // Save Secret
         var secret = md5("default") //req.body.secret
         db.get('counterSecret').set(cid, secret).write()
-        //Save Status
+        // Save Status
         db.get('counterStatus').set(cid, true).write()
-        //Save Default Number
+        // Save Default Number
         db.get('counterNumber').set(cid, 0).write()
+        // Create empty Log Array
+        db.get('counterLogs').set(cid, []).write()
+
+        // Make Log
+        dbCall.makeLog(cid, 'register')
+
         // Return Message
         return res.json(routeMessages.info.registrationSuccess)
     }
@@ -71,8 +88,19 @@ app.get('/api/count/:cid/:number?', (req, res, next) => { //GET for Debug
     var cid = req.params.cid;
     var index = dbCall.getIndexOf(cid)
     if (index >= 0) {
-        var number = parseInt(req.params.number || 1);
+        // Get Number from Request parameter
+        var number = parseInt(req.params.number || 1); // req.body.number
+        // Update number on counter
         db.get('counterNumber').update(cid, n=> parseInt(n) + number).write()
+        // Get current number
+        var counter = db.get('counterNumber').get(cid).value()
+
+        // Make Log
+        dbCall.makeLog(cid, 'count', {
+            number,
+            counter
+        })
+
         return res.json(routeMessages.info.counterSuccess)
     }
     next(routeMessages.error.noCID)
@@ -82,8 +110,16 @@ app.get('/api/set/:cid/:number?', (req, res, next) => { //GET for Debug
     var cid = req.params.cid;
     var index = dbCall.getIndexOf(cid)
     if (index >= 0) {
-        var number = parseInt(req.params.number || 0);
+        // Get Number from Request parameter
+        var number = parseInt(req.params.number || 0); // req.body.number
+        // Set number on counter
         db.get('counterNumber').set(cid, number).write()
+
+        // Make Log
+        dbCall.makeLog(cid, 'set', {
+            number
+        })
+
         return res.json(routeMessages.info.counterSetSuccess)
     }
     next(routeMessages.error.noCID)
