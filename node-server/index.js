@@ -91,7 +91,7 @@ app.get('/api/set/:cid/:number?', (req, res, next) => { //GET for Debug
 
 app.use(function (err, req, res, next) {
     console.log(arguments)
-    if (!err) {
+    if (!!err) {
         next(err)
     } else {
         res.json(apiCommands)
