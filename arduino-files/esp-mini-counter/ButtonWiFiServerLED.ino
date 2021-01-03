@@ -85,7 +85,7 @@ void status_connected()
 
 void storage_init()
 {
-  http.begin("http://192.168.0.100:3000/api/register/" + macAddress);
+  http.begin("http://192.168.178.28:3000/api/register/" + macAddress);
   int httpCode = http.GET();
   if (httpCode > 0) { //Check the returning code
 
@@ -99,13 +99,14 @@ void storage_init()
 
 void status_ready()
 {
-  digitalWrite(led_out_1, LOW); // turn LED ON
+  digitalWrite(led_out_1, LOW); // turn LED OFF
   digitalWrite(led_out_2, HIGH); // turn LED ON
 }
 
 void sensor_read()
 {
   val = digitalRead(taster); // read input value
+  delay(100);
   // HIGH = no input
   // LOW = user input
 }
@@ -120,9 +121,10 @@ int sensor_is_active()
 
 void sensor_on_active()
 {
-  digitalWrite(led_out_2, LOW); // turn LED ON
+  digitalWrite(led_out_1, HIGH); // turn LED ON
+  digitalWrite(led_out_2, HIGH); // turn LED ON
   Serial.println(val);
-  http.begin("http://192.168.0.100:3000/api/count/" + macAddress);
+  http.begin("http://192.168.178.28:3000/api/count/" + macAddress);
   int httpCode = http.GET();
   if (httpCode > 0) { //Check the returning code
 
@@ -137,7 +139,7 @@ void sensor_on_active()
 
 void sensor_on_inactive()
 {
-  digitalWrite(led_out_2, HIGH); // turn LED OFF
+   status_ready();
 }
 
 #endif
