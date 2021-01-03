@@ -7,14 +7,18 @@
 // const char* ssid     = "Name of SSID";
 // const char* password = "Password of SSID";
 
+
 //Included libraries
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
+
 // Assign output variables
 const int taster = D1;
+
 const int led_out_1 = D2;
 const int led_out_2 = D3;
+
 
 // HTTP Client objects
 HTTPClient http;
