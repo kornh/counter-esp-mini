@@ -82,6 +82,8 @@ void status_ready()
 void callISRAction()
 {
     val += 1;
+    Serial.println("ISR Call:");
+    Serial.println("New Value: " + val);
 }
 
 void loop_action_init()
@@ -96,6 +98,7 @@ int action_is_active()
 
 void action_on_active()
 {
+  Serial.println("Action active!");
   digitalWrite(led_out_1, HIGH); // turn LED ON
   digitalWrite(led_out_2, HIGH); // turn LED ON
   Serial.println(val);
@@ -111,6 +114,9 @@ void action_on_active()
   http.end();   //Close connection
 
   val = 0; //Reset after update on Server
+
+  status_ready();
+
 }
 
 void action_on_inactive()
