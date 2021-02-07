@@ -1,6 +1,4 @@
-#ifndef _BWSL
-#define _BWSL
-#endif
+#define _BAWSL
 
 void setup()
 {
