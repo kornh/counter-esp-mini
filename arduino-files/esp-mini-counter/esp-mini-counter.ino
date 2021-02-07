@@ -29,20 +29,20 @@ void setup()
 
 void loop()
 {
-    // Read sensor data
-    sensor_read();
+    // run init for loop
+    loop_action_init();
 
     // Check if 
-    int is_active = sensor_is_active();
+    int is_active = action_is_active();
 
     if (is_active == 1)
     {
-        // Run commands if sensore is active
-        sensor_on_active();
+        // Run commands if action is active
+        action_on_active();
     }
     else
     {
-        // Run commands if sensore is inactive
-        sensor_on_inactive();
+        // Run commands if action is inactive
+        action_on_inactive();
     }
 }

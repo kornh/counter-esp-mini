@@ -103,7 +103,7 @@ void status_ready()
   digitalWrite(led_out_2, HIGH); // turn LED ON
 }
 
-void sensor_read()
+void loop_action_init()
 {
   val = digitalRead(taster); // read input value
   delay(100);
@@ -111,7 +111,7 @@ void sensor_read()
   // LOW = user input
 }
 
-int sensor_is_active()
+int action_is_active()
 {
   if (val != HIGH) { // HIGH = no input
     return 1;
@@ -119,7 +119,7 @@ int sensor_is_active()
   return 0;
 }
 
-void sensor_on_active()
+void action_on_active()
 {
   digitalWrite(led_out_1, HIGH); // turn LED ON
   digitalWrite(led_out_2, HIGH); // turn LED ON
@@ -137,7 +137,7 @@ void sensor_on_active()
 
 }
 
-void sensor_on_inactive()
+void action_on_inactive()
 {
    status_ready();
 }
