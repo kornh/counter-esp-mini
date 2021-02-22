@@ -3,3 +3,4 @@ node-server/package-lock.json
 node-server/node_modules/**
 **/.DS_Store
 arduino-files/esp-mini-counter/credentials.h
+node-server/data/db.json
