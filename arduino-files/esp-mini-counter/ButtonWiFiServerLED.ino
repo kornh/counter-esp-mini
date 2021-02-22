@@ -2,10 +2,11 @@
 
 // Secret data in dedicated file to hide from git
 #include "credentials.h"
-// Must contain "ssid" and "password" variables with type "char*"
+// Must contain "SERVER_ADDRESS", "ssid" and "password" variables with type "char*"
 // On Error create file "credentials.h" with content:
 // const char* ssid     = "Name of SSID";
 // const char* password = "Password of SSID";
+// const char* SERVER_ADDRESS = "Path of Server with protocol and port";
 
 
 //Included libraries
@@ -85,7 +86,7 @@ void status_connected()
 
 void storage_init()
 {
-  http.begin("http://192.168.178.28:3000/api/register/" + macAddress);
+  http.begin(SERVER_ADDRESS + "/api/register/" + macAddress);
   int httpCode = http.GET();
   if (httpCode > 0) { //Check the returning code
 
@@ -124,7 +125,7 @@ void action_on_active()
   digitalWrite(led_out_1, HIGH); // turn LED ON
   digitalWrite(led_out_2, HIGH); // turn LED ON
   Serial.println(val);
-  http.begin("http://192.168.178.28:3000/api/count/" + macAddress);
+  http.begin(SERVER_ADDRESS + "/api/count/" + macAddress);
   int httpCode = http.GET();
   if (httpCode > 0) { //Check the returning code
 

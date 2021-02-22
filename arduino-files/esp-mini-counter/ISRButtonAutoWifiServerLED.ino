@@ -1,5 +1,11 @@
 #ifdef _IBAWSL
 
+// Secret data in dedicated file to hide from git
+#include "credentials.h"
+// Must contain "SERVER_ADDRESS" variable with type "char*"
+// On Error create file "credentials.h" with content:
+// const char* SERVER_ADDRESS = "Path of Server with protocol and port";
+
 //Included libraries
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
@@ -61,7 +67,7 @@ void status_connected()
 
 void storage_init()
 {
-  http.begin("http://192.168.178.28:3000/api/register/" + macAddress);
+  http.begin(SERVER_ADDRESS + "/api/register/" + macAddress);
   int httpCode = http.GET();
   if (httpCode > 0) { //Check the returning code
 
@@ -102,7 +108,7 @@ void action_on_active()
   digitalWrite(led_out_1, HIGH); // turn LED ON
   digitalWrite(led_out_2, HIGH); // turn LED ON
   Serial.println(val);
-  http.begin("http://192.168.178.28:3000/api/count/" + macAddress + "/" + val);
+  http.begin(SERVER_ADDRESS + "/api/count/" + macAddress + "/" + val);
   int httpCode = http.GET();
   if (httpCode > 0) { //Check the returning code
 
