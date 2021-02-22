@@ -1,11 +1,16 @@
 const apiCommands = require('./api.json')
 const routeMessages = require('./messages.json')
+
 var md5 = require('md5');
 
 const express = require('express')
-const bodyParser = require('body-parser');
 const app = express()
 const port = 3000
+
+var morgan = require('morgan')
+app.use(morgan('combined'))
+
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -126,7 +131,6 @@ app.get('/api/set/:cid/:number?', (req, res, next) => { //GET for Debug
 })
 
 app.use(function (err, req, res, next) {
-    console.log(arguments)
     if (!!err) {
         next(err)
     } else {
